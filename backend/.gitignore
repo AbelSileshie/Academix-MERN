@@ -15,7 +15,7 @@ build/
 
 # Env files
 .env
-.env.*
+.env
 
 # OS
 Thumbs.db

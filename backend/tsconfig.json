@@ -12,6 +12,6 @@
     "moduleResolution": "node",
     "types": ["node"]
   },
-  "include": ["src", "auth.ts"],
+  "include": ["src", "src/lib/auth.ts"],
   "exclude": ["node_modules", "dist"]
 }
