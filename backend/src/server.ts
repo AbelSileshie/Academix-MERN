@@ -13,6 +13,7 @@ import departmentRoutes from './routes/departmentRoutes';
 import courseRoutes from './routes/courseRoutes';
 import postRoutes from './routes/postRoutes';
 import authRoutes from './routes/authRoutes';
+import adminRoutes from './routes/adminRoutes';
 
 import dotenv from 'dotenv';
 
@@ -47,6 +48,7 @@ app.use('/api/users', userRoutes);
 app.use('/api/departments', departmentRoutes);
 app.use('/api/courses', courseRoutes);
 app.use('/api/posts', postRoutes);
+app.use('/api/admin', adminRoutes);
 
 // Health check route
 app.get('/health', (_req, res) => {

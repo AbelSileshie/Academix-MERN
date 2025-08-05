@@ -9,6 +9,11 @@ export interface IUser extends Document {
     role: 'student' | 'admin' | 'faculty';
     isActive: boolean;
     isVerified: boolean;
+    isBanned: boolean;
+    banReason?: string;
+    bannedBy?: mongoose.Types.ObjectId;
+    banExpires?: Date;
+    warningCount: number;
     avatar?: string;
     lastLogin?: Date;
     createdAt: Date;
@@ -50,6 +55,27 @@ const userSchema = new Schema<IUser>({
     isVerified: {
         type: Boolean,
         default: false
+    },
+    isBanned: {
+        type: Boolean,
+        default: false
+    },
+    banReason: {
+        type: String,
+        default: null
+    },
+    bannedBy: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        default: null
+    },
+    banExpires: {
+        type: Date,
+        default: null
+    },
+    warningCount: {
+        type: Number,
+        default: 0
     },
     avatar: {
         type: String,
