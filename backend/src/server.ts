@@ -5,6 +5,7 @@ import morgan from 'morgan';
 import { connectDB } from './config/database';
 import { errorHandler } from './middleware/errorHandler';
 import { logger } from './utils/logger';
+import { setupSwagger } from './config/swagger';
 
 // Route imports
 import userRoutes from './routes/userRoutes';
@@ -37,6 +38,9 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 // Connect to MongoDB
 connectDB();
 
+// Setup Swagger documentation
+setupSwagger(app);
+
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/users', userRoutes);
@@ -58,7 +62,16 @@ app.get('/', (_req, res) => {
     res.json({ 
         message: 'Welcome to Academix API',
         version: '1.0.0',
-        documentation: '/api/docs'
+        documentation: '/api/docs',
+        endpoints: {
+            docs: '/api/docs',
+            health: '/health',
+            auth: '/api/auth',
+            users: '/api/users',
+            departments: '/api/departments',
+            courses: '/api/courses',
+            posts: '/api/posts'
+        }
     });
 });
 

@@ -30,3 +30,6 @@ coverage
 .grunt
 
 # Bower dependency
+
+# Environment variables
+.env

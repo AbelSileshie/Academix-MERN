@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt, { Secret, SignOptions } from 'jsonwebtoken';
 
 interface JWTPayload {
     userId: string;
@@ -8,17 +8,30 @@ interface JWTPayload {
 }
 
 export const generateToken = (userId: string, role?: string): string => {
-    const payload: Record<string, any> = { userId };
-    if (role) payload.role = role;
+    const payload: { userId: string; role?: string } = { userId };
+    if (role) {
+        payload.role = role;
+    }
     
-    return jwt.sign(payload, process.env.JWT_SECRET!, {
-        expiresIn: process.env.JWT_EXPIRES_IN || '7d'
-    });
+    const secret = process.env.JWT_SECRET;
+    if (!secret) {
+        throw new Error('JWT_SECRET is not defined');
+    }
+    
+    const options: SignOptions = {
+        expiresIn: (process.env.JWT_EXPIRES_IN || '7d') as jwt.SignOptions['expiresIn']
+    };
+    
+    return jwt.sign(payload, secret as Secret, options);
 };
 
 export const verifyToken = (token: string): JWTPayload | null => {
     try {
-        return jwt.verify(token, process.env.JWT_SECRET!) as JWTPayload;
+        const secret = process.env.JWT_SECRET;
+        if (!secret) {
+            throw new Error('JWT_SECRET is not defined');
+        }
+        return jwt.verify(token, secret as Secret) as JWTPayload;
     } catch (error) {
         return null;
     }
